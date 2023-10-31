@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "axe-core": "^4.8.2",
+    "cypress": "^13.3.3",
+    "cypress-axe": "^1.5.0",
+    "cypress-cucumber-preprocessor": "^4.3.1"
+  }
+}

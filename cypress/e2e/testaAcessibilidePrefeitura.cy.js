@@ -1,17 +1,15 @@
 
-describe('testeAcessibilidade ', () => {
+describe('testeAcessibilidadePrefeitura ', () => {
   beforeEach(() => {  
       cy.visit('https://www2.recife.pe.gov.br/')
  })
 
   it('verifica violações em início', () => {
     cy.checkLink('')
-   
   })
 
   it('verifica violação em cidadão',() => {
     cy.checkLink('Cidadão')
-    
   })
   it('verifica violação em turista',() => {
     cy.checkLink('Turista')
@@ -19,7 +17,10 @@ describe('testeAcessibilidade ', () => {
   })
   it('verifica violação em empresas',() => {
     cy.checkLink('Empresas')
-    
+  })
+
+  it('Gerar relatório de contagem de violações',() => {
+    cy.logContViotalions()
   })
 
 })

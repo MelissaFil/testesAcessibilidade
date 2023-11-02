@@ -14,20 +14,29 @@ function contViolation (violation){
             contcritical++
             break;      }
   })
-
+  
+}
+function logContViotalions (){
   cy.task('log', `Um total de ${cont} violações encontradas no sistema onde:`+
     `\n${contserious} violações são Sérias` + 
     `\n ${contmoderate} violações são moderadas` +
     `\n ${contcritical} violações são Críticas `
-  )
-
- 
+  ) 
 }
-
-Cypress.Commands.add('checkLink', (buttonContains) => { 
-    if(buttonContains){
-        cy.contains('a', buttonContains).click()
-    }
+function tableDescription (violation){
+  
+}
+function linkContains (linkText){
+  if(linkText){
+    cy.contains('a', linkText).click()
+  }
+}
+Cypress.Commands.add('checkLink', (linkText) => { 
+    
+  linkContains(linkText)
     cy.injectAxe() 
     cy.checkA11y(null, null, contViolation, true)  
+})
+Cypress.Commands.add('logContViotalions', () => { 
+  logContViotalions()  
 })

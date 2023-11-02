@@ -27,7 +27,7 @@ function tableDescription (violation){
   
 }
 function linkContains (linkText){
-  if(linkText){
+  if(linkText && cy.contains('a', linkText).should('be.visible')){
     cy.contains('a', linkText).click()
   }
 }

@@ -6,6 +6,8 @@ contserious=0,
 contcritical=0,contNode=0;
 const violationReportResume = [];
 const { tableReport, printTableReport } = require('./reports/tableReport');
+const { printReport } = require('./reports/printReport');
+
 function generateReport (violation){
   cont+=violation.length;
 
@@ -26,15 +28,6 @@ function generateReport (violation){
   })
   tableReport(violation)
   tableReportResume(violation)
-}
-function printReport (){
-  cy.log( `Um total de ${cont} violações encontradas no sistema onde:`+    
-    `\n${contserious} violações são Sérias` + 
-    `\n ${contmoderate} violações são moderadas` +
-    `\n ${contcritical} violações são Críticas `+
-    `\n Ao todo, ${contNode  } nós foram afetados`
-  ) 
-  
 }
 
 
@@ -66,7 +59,7 @@ Cypress.Commands.add('checkLink', (domain, path) => {
 //encontrado no sistema inteiro e log informando 
 //a quantidade de violação de cada tipo de impacto
 Cypress.Commands.add('printReport', () => { 
-  printReport()  
+  printReport(cont,contserious,contmoderate,contcritical,contNode)  
   printTableReport()
 })
 Cypress.Commands.add('printReportResume', () => { 

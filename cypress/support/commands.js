@@ -1,9 +1,11 @@
+import'./reports/tableReport'
+
 var cont=0, 
 contmoderate=0, 
 contserious=0, 
-contcritical=0;
-const violationReport = [], violationReportResume = [];
-
+contcritical=0,contNode=0;
+const violationReportResume = [];
+const { tableReport, printTableReport } = require('./reports/tableReport');
 function generateReport (violation){
   cont+=violation.length;
 
@@ -11,32 +13,30 @@ function generateReport (violation){
     switch(v.impact) {
         case 'moderate':
             contmoderate++
+            contNode+= v.nodes.length
             break;
         case 'serious':
             contserious++
+            contNode+= v.nodes.length
             break;
         case "critical":
             contcritical++
+            contNode+= v.nodes.length
             break;      }
   })
   tableReport(violation)
   tableReportResume(violation)
 }
 function printReport (){
-  cy.task('log', `Um total de ${cont} violações encontradas no sistema onde:`+
+  cy.log( `Um total de ${cont} violações encontradas no sistema onde:`+    
     `\n${contserious} violações são Sérias` + 
     `\n ${contmoderate} violações são moderadas` +
-    `\n ${contcritical} violações são Críticas `
+    `\n ${contcritical} violações são Críticas `+
+    `\n Ao todo, ${contNode  } nós foram afetados`
   ) 
-  cy.task('table', violationReport)
+  
 }
-function tableReport(violations){
-  violations.map(function({ id, impact, description, nodes }){
-    violationReport.push({id:id, impact:impact, description:description, nodes: nodes.length})
-    
-  })
- 
-}
+
 
 function tableReportResume(violations){
   var exist=false;
@@ -67,8 +67,9 @@ Cypress.Commands.add('checkLink', (domain, path) => {
 //a quantidade de violação de cada tipo de impacto
 Cypress.Commands.add('printReport', () => { 
   printReport()  
+  printTableReport()
 })
 Cypress.Commands.add('printReportResume', () => { 
-  cy.task('log', violationReportResume)
+  cy.task('table', violationReportResume)
 })
 

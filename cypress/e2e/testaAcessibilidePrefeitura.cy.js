@@ -1,27 +1,22 @@
 
 describe('testeAcessibilidadePrefeitura ', () => {
-  beforeEach(() => {  
-      cy.visit('https://www2.recife.pe.gov.br/')
- })
-
+  const domain = 'https://www2.recife.pe.gov.br/'
+  
   it('verifica violações em início', () => {
-    cy.checkLink('')
+    cy.checkLink(domain,'')
   })
-
   it('verifica violação em cidadão',() => {
-    cy.checkLink('Cidadão')
+    cy.checkLink(domain, 'servicos/cidadao')
   })
   it('verifica violação em turista',() => {
-    cy.checkLink('Turista')
-    
+    cy.checkLink(domain, 'servicos/turista')
   })
   it('verifica violação em empresas',() => {
-    cy.checkLink('Empresas')
+    cy.checkLink(domain, 'servico/empresa')
   })
 
   it('Gerar relatório de contagem de violações',() => {
-    cy.logContViotalions()
+    cy.printReport()
   })
-
 })
 

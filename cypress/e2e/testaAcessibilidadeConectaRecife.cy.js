@@ -1,16 +1,17 @@
 
 describe('testeAcessibilidadeConectaRecife ', () => {
-    beforeEach(() => {  
-        cy.visit('https://conecta.recife.pe.gov.br/')
-   })
-  
+    const visit = 'https://www.olinda.pe.gov.br/';
+
     it('verifica violações em início', () => {
-      cy.checkLink('')
+      cy.checkLink(visit,'')
+    })
+    it('verifica violações em Serviços', () => {
+      cy.checkLink(visit, 'servicos')
     })
     it('verifica violações em Institucional', () => {
-      cy.checkLink('Institucional')
+      cy.checkLink(visit,'secretarias-e-orgaos')
     })
-    it('verifica violações em Ouvidoria', () => {
-      cy.checkLink('Ouvidoria')
+    it('Imprimir relatório violações',() => {
+      cy.printReport()
     })
 })

@@ -58,6 +58,7 @@ function tableReportResume(violations){
     violationReportResume.map(function(report){
       if(report.id == id){
         exist = true
+        report.nodes+=nodes.length
       }
     })
     if(!exist){

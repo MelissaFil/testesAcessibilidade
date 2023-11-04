@@ -15,8 +15,11 @@ describe('testeAcessibilidadePrefeitura ', () => {
     cy.checkLink(domain, 'servico/empresa')
   })
 
-  it('Gerar relatório de contagem de violações',() => {
+  it('Gerar relatório de contagem de violações encontradas',() => {
     cy.printReport()
+  })
+  it('Gerar relatório de resumo de tipos de violações encontradas',() => {
+    cy.printReportResume()
   })
 })
 

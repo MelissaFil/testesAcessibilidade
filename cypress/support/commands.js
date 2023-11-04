@@ -1,5 +1,10 @@
-var cont=0, contmoderate=0, contserious=0, contcritical=0;
-function contViolation (violation){
+var cont=0, 
+contmoderate=0, 
+contserious=0, 
+contcritical=0;
+const violationReport = [{ id:"",impact:"",description:"",nodes:0 }];
+
+function generateReport (violation){
   cont+=violation.length;
 
   violation.map(function(v){
@@ -14,29 +19,46 @@ function contViolation (violation){
             contcritical++
             break;      }
   })
-  
+  tableReport(violation)
 }
-function logContViotalions (){
+function printReport (){
   cy.task('log', `Um total de ${cont} violações encontradas no sistema onde:`+
     `\n${contserious} violações são Sérias` + 
     `\n ${contmoderate} violações são moderadas` +
     `\n ${contcritical} violações são Críticas `
   ) 
+  cy.task('table', violationReport)
 }
-function tableDescription (violation){
+function tableDescription(violations) {
   
+   const violationData = violations.map(
+    ({ id, impact, description, nodes }) => ({
+      id,
+      impact,
+      description,
+      nodes: nodes.length
+    })
+  )
+  cy.task('table', violationData)
 }
-function linkContains (linkText){
-  if(linkText && cy.contains('a', linkText).should('be.visible')){
-    cy.contains('a', linkText).click()
-  }
-}
-Cypress.Commands.add('checkLink', (linkText) => { 
+
+function tableReport(violations){
+  violations.map(function({ id, impact, description, nodes }){
+    violationReport.push({id:id, impact:impact, description:description, nodes: nodes.length})
     
-  linkContains(linkText)
+  })
+}
+
+Cypress.Commands.add('checkLink', (domain, path) => { 
+    cy.visit(domain+path)
     cy.injectAxe() 
-    cy.checkA11y(null, null, contViolation, true)  
+    cy.checkA11y(null, null, generateReport, true)  
 })
-Cypress.Commands.add('logContViotalions', () => { 
-  logContViotalions()  
+
+Cypress.Commands.add('printReport', () => { 
+  printReport()  
+})
+
+Cypress.Commands.add('tableDescription', (violation) => { 
+  tableDescription(violation) 
 })

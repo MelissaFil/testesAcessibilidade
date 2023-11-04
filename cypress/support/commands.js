@@ -2,8 +2,8 @@ var cont=0,
 contmoderate=0, 
 contserious=0, 
 contcritical=0;
-const violationReport = [{ id:"",impact:"",description:"",nodes:0 }];
-const violationReportResume = [{ id:"",impact:"",description:"",nodes:0 }];
+const violationReport = [], violationReportResume = [];
+
 function generateReport (violation){
   cont+=violation.length;
 
@@ -30,19 +30,6 @@ function printReport (){
   ) 
   cy.task('table', violationReport)
 }
-function tableDescription(violations) {
-  
-   const violationData = violations.map(
-    ({ id, impact, description, nodes }) => ({
-      id,
-      impact,
-      description,
-      nodes: nodes.length
-    })
-  )
-  cy.task('table', violationData)
-}
-
 function tableReport(violations){
   violations.map(function({ id, impact, description, nodes }){
     violationReport.push({id:id, impact:impact, description:description, nodes: nodes.length})
@@ -54,7 +41,7 @@ function tableReport(violations){
 function tableReportResume(violations){
   var exist=false;
   violations.map(function({ id, impact, description, nodes }){
-    //verificar se já foi encontrado um erro do tipo
+    //verificar se já foi encontrado um erro do tipo, caso sim, somar os nodes
     violationReportResume.map(function(report){
       if(report.id == id){
         exist = true
@@ -82,8 +69,6 @@ Cypress.Commands.add('printReport', () => {
   printReport()  
 })
 Cypress.Commands.add('printReportResume', () => { 
-  cy.task('table', violationReportResume)
+  cy.task('log', violationReportResume)
 })
-Cypress.Commands.add('tableDescription', (violation) => { 
-  tableDescription(violation)
-})
+
